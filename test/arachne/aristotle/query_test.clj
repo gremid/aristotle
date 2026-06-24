@@ -57,7 +57,7 @@
 
 (deftest minus
   (is (= 5 (count (q/run test-graph
-                    '[:diff
+                    '[:minus
                       [:bgp [?zip :ds/total_population "0"]]
                       [:bgp [?zip :ds/zip_code "90831"]]])))))
 

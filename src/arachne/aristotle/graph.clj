@@ -7,10 +7,11 @@
   (:import [clojure.lang Keyword Symbol]
            [ont_app.vocabulary.lstr LangStr]
            [java.net URL URI]
-           [java.util GregorianCalendar Calendar Date Map Collection List]
+           [java.util Calendar Date Map Collection List]
+           [java.time Instant]
+           [java.time.temporal ChronoUnit]
            [org.apache.jena.graph Node NodeFactory Triple GraphUtil Node_URI Node_Literal Node_Variable Node_Blank Graph]
            [org.apache.jena.datatypes.xsd XSDDatatype XSDDateTime]
-           [javax.xml.bind DatatypeConverter]
            [org.apache.jena.riot RDFDataMgr]
            [org.apache.jena.reasoner TriplePattern])
   (:refer-clojure :exclude [reify load]))
@@ -114,12 +115,15 @@
     (NodeFactory/createLiteralByValue obj XSDDatatype/XSDdecimal))
   Date
   (node [obj]
-    (node (doto (GregorianCalendar.) (.setTime obj))))
+    (node (. obj (toInstant))))
   Calendar
   (node [obj]
-    (NodeFactory/createLiteral
-      (DatatypeConverter/printDateTime obj)
-      XSDDatatype/XSDdateTime))
+    (node (. obj (toInstant))))
+  Instant
+  (node [obj]
+    (NodeFactory/createLiteralByValue
+     (.. obj (truncatedTo ChronoUnit/SECONDS) (toString))
+     XSDDatatype/XSDdateTime))
   Node
   (node [node] node))
 

@@ -19,7 +19,6 @@
         :filter ::filter
         :conditional ::conditional
         :dataset-names ::dataset-names
-        :diff ::diff
         :disjunction ::disjunction
         :extend ::extend
         :graph ::graph
@@ -113,11 +112,6 @@
 (defd ::dataset-names
   "Not sure what this form does TBH. ARQ doesn't document it."
   (s/cat :op #{:dataset-names} :node ::g/node))
-
-(defd ::diff
-  "Return solutions that are present in one child or the other, but
-  not both."
-  (s/cat :op #{:diff} :a ::operation :b ::operation))
 
 (defd ::disjunction
   "Logical disjunction between multiple operations."
